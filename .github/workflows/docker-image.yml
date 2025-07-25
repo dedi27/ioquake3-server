@@ -15,12 +15,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ghcr.io/heyymrdj/docker-k8s-quake3:latest 
+      run: docker build . --file Dockerfile --tag dedi27/quake3-server:1.0.1
 
     - name: Login to Github Container Registry
       env:
         CR_PAT: ${{ secrets.CR_PAT }}
-      run: echo "$CR_PAT" | docker login ghcr.io -u USERNAME --password-stdin
+        USUARIO: ${{ github.actor }}
+      run: echo "$CR_PAT" | docker login docker.io -u $USUARIO --password-stdin
       
     - name: Push image to Github Container Registry
-      run: docker push ghcr.io/heyymrdj/docker-k8s-quake3:latest
+      run: docker push dedi27/quake3-server:1.0.1
